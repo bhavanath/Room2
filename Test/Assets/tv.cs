@@ -7,15 +7,18 @@ public class tv : MonoBehaviour {
 	public GameObject ttv;
 	public GameObject screen;
 	public GameObject ALLLight;
-	public GameObject Lamp1;
+	public GameObject Lamp1lght;
+	public GameObject Ghost;
 
 
 	float timer = 0.0f;
 	public float Seconds;
 	private int rand;
 
-	//private float minFlickerSpeed=0.8f;
-	//private float maxFlickerSpeed=1.0f;
+	private bool StopFlickr=false;
+
+	//private int minFlickerSpeed=0;
+	//private int maxFlickerSpeed=5;
 
 	void Start () 
 	{
@@ -23,18 +26,28 @@ public class tv : MonoBehaviour {
 		ttv.SetActive(false);
 		screen.SetActive (false);
 		ALLLight.SetActive (false);
+		Ghost.SetActive (false);
 
 
 	}
 	
+	void FixedUpdate()
+	{
+		if (Seconds >= 50.0f) 
+		{
+			StopFlickr = true;
+			Lamp1lght.SetActive (false);
+			Ghost.SetActive (true);
+		}
+	}
+
 	void Update () {
 
 		rand = Random.Range (0, 2);
 		Debug.Log (rand);
 
-
 		timer += Time.deltaTime;
-		Seconds = timer % 60;
+		Seconds = timer % 200;
 
 		if (Seconds >= 20.0f) 
 		{
@@ -44,19 +57,19 @@ public class tv : MonoBehaviour {
 
 		if (Seconds >= 30.0f) 
 		{
-			
 			ALLLight.SetActive (true);
 		}
 
-		if (Seconds >= 40.0) 
-		{
-			ttv.SetActive (false);
-			screen.SetActive (false);
-			if (rand == 1) {
-				Lamp1.SetActive (true);
-			} else if (rand == 0)
-				Lamp1.SetActive (false);
+		if (Seconds > 40.0 && !StopFlickr) 
+		{ 
+			{
+				if (rand == 1)
+					Lamp1lght.SetActive (true);
+				else if (rand == 0)
+					Lamp1lght.SetActive (false);
+			}
 		}
+		//if(Seconds > 50.0)
 
 		
 	}
